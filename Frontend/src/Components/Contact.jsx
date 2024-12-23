@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios'
 
 
 const Contact = () => {
@@ -6,15 +7,21 @@ const Contact = () => {
     const [email, setEmail] = useState('');
     const [message, setMessage] = useState('');
 
-    const handleSubmit = (e) =>{
+    const handleSubmit = async (e) =>{
         e.preventDefault();
-        const contactData = {
-            name,
-            email,
-            message,
+        try {
+            const response = await axios.post("http://localhost:3000/user/contact", {name, email, message});
+            console.log(response);
+            
+            const contactData = {
+                name,
+                email,
+                message,
+            }
+            console.log(contactData);
+        } catch (error) {
+            console.log(error);
         }
-        console.log(contactData);
-        
     };
 
     return (
@@ -50,7 +57,7 @@ const Contact = () => {
                         value={message}
                         onChange={(e)=>setMessage(e.target.value)}
                         required
-                        className="w-full h-10 px-3 py-2 border rounded-lg outline-none "
+                        className="w-full h-32 px-3 py-2 border rounded-lg outline-none "
                     />
                 </div>
                 <button type="submit" className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">
